@@ -38,8 +38,8 @@
 <script setup>
 const routes = [
   { name: 'Home', path: '/' },
+  { name: 'Blog', path: '/blog' },
   { name: 'Projects', path: '/projects' },
   { name: 'About', path: '/about' },
-  { name: 'Blog', path: '/blog' }
 ]
 </script>
