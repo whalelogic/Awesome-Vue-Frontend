@@ -4,24 +4,7 @@ services:
   app:
     build: .
     ports:
-      - "8080:8080"
-    environment:
-      - DB_HOST=your_host
-      - DB_USER=your_user
-      - DB_PASSWORD=your_password
-      - DB_NAME=your_table_name
-    depends_on:
-      - mariadb
-
-  mariadb:
-    image: mariadb:10.6
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: your_password 
-      MYSQL_DATABASE: your_table
-    volumes:
-      - mariadb_data:/var/lib/mysql
-
-volumes:
-  mariadb_data:
+      - "80:80"
+    restart: unless-stopped
+    container_name: awesomevueblog
 
