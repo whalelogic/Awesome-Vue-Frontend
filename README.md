@@ -105,6 +105,21 @@ cp .env.example .env  # if using env for DB credentials
 - Reverse proxy with Caddy or Nginx recommended
 - Optional: Use Docker for containerized deployment
 
+## Build and run with docker-compose
+
+`docker-compose up -d`
+
+## Or build and run with docker directly
+
+`docker build -t awesomevueblog .`
+
+#### Serve HTTPS-enabled App with Nginx Configuration (provided)
+
+`docker run -p 80:80 awesomevueblog`
+
+Access Dev server at `http://localhost:5173 or localhost:8080`
+Access API @ `localhost:3000/localhost:3001`
+
 ## 👨‍💻 About Me
 
 Keith Thomson is a U.S. Army veteran turned software engineer with expertise in Go, Rust, Python, cloud systems, and AI integrations. This site is both a resume and a publication space for original technical writing and applied research.
