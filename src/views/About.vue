@@ -14,15 +14,18 @@
             <UserIcon class="w-6 h-6 mr-2 text-purple-400" />
             Background
           </h2>
-          <p class="text-gray-400 leading-relaxed mb-4">
-  I’m Keith Thomson — a former Army Squad Leader and entrenenpuer talented in designing and scaling efficient systems. The passion I found in Computer Science was like nothing I've encountered before. It's challenging and ever-changing environment is what drives me to keep learning and enhancing my skills. After serving on active duty (2007–2011) and contracting in financial analysis for the U.S. Navy, I used my G.I. Bill and earned an AS in Computer Science followed by a BS in Information Systems with a minor in Philosphy. 
-  <br>
-  <br>Since then I’ve designed and delivered mission-critical web and API solutions—spanning Flask, Django, FastAPI and Gin—with MariaDB, PostgreSQL, and cloud-native infrastructures on DigitalOcean and AWS. I specialize in architecting, deploying, and administering cloud infrastructures—ensuring they are scalable, reliable, and secure.
-
-</p>
-<p class="text-gray-400 leading-relaxed">
-  Today I specialize in high-performance back-ends and modern front-ends, leveraging Go, Rust, and Python to build microservices, business-intelligence pipelines, and RAG-powered agents. My passion lies at the intersection of traditional software engineering and AI/ML—designing scalable systems, retrieval-augmented workflows, and intelligent agents that drive real-world impact.
-</p>
+            <p class="text-gray-400 leading-relaxed mb-4">
+            I'm Keith Thomson—a full-stack engineer and cloud architect with a passion for building scalable, high-performance systems. After serving as a Squad Leader I continued working as a federal contractor supporting U.S. Navy logistics and data systems through it's PSD - Personnel Support Detachment.
+            </p>
+            <p class="text-gray-400 leading-relaxed mb-4">
+            I leveraged my G.I. Bill to earn degrees in Computer Science Information Systems and Cloud Computing, specializing in Backend Development, Cloud Infrastructure Automation and Systems Design.
+            </p>
+            <p class="text-gray-400 leading-relaxed mb-4">
+            I use Go, Python, Bash and more for designing and administering microservices, gRPC, RESTful APIs, Web Applications, Data Pipelines and other cloud-native solutions.
+            </p>
+            <p class="text-gray-400 leading-relaxed">
+            Whether Architecting Distributed Systems, designing Data Pipelines, or optimizing your Cloud Infrastructure, I focus on delivering secure, maintainable solutions that solve real business problems.
+            </p>
 
         </div>
 
@@ -98,27 +101,34 @@ import {
 const experience = [
   {
     id: 1,
+    title: 'Programmer Analyst',
+    company: 'Southern Connecticut State University – New Haven, CT',
+    period: '2023 – Present',
+    description: 'Develop and maintain internal web applications and data systems to support university operations. Collaborate with cross-functional teams to design solutions that enhance administrative efficiency and student services.'
+  },
+  {
+    id: 2,
     title: 'Product QA & Web Content Manager',
     company: 'PennyBorne Development (Remote – Detroit, MI)',
     period: '2023 – Present',
     description: 'Oversee QA processes, manage and curate website content, source and structure business data, administer internal databases, and coordinate directly with clients to align digital strategy with operational goals.'
   },
   {
-    id: 2,
+    id: 3,
     title: 'Assistant Manager',
     company: 'The Spice & Tea Exchange – Mystic, CT',
     period: '2017 – 2021',
     description: 'Managed daily retail operations, optimized inventory control, and led a sales team to increase store revenue by over 25%. Developed customer loyalty initiatives and trained staff in product knowledge and service excellence.'
   },
   {
-    id: 3,
-    title: 'Financial Accounting Clerk II',
+    id: 4,
+    title: 'Financial Accounting Clerk',
     company: 'The Magetti Group / Various Federal Contracts',
     period: '2012 – 2016',
     description: 'Provided data analytics and financial systems support for U.S. Navy contracts. Delivered operational insights and managed backend data systems for logistics and accounting functions.'
   },
   {
-    id: 4,
+    id: 5,
     title: 'Infantry Squad Leader (NCO)',
     company: 'U.S. Army – Active Duty',
     period: '2007 – 2011',
@@ -130,23 +140,23 @@ const experience = [
 const skillCategories = [
   {
     name: 'Languages',
-    skills: ['Go', 'Rust', 'Python', 'C++', 'TypeScript']
+    skills: ['Go', 'Bash', 'SQL', 'Python', 'C++', 'JavaScript', 'C#' ]
   },
   {
     name: 'Backend',
-    skills: ['gRPC', 'REST APIs', 'GraphQL', 'Microservices', 'JSON Web Tokens', 'oAuth']
+    skills: ['TCP/IP', 'gRPC', 'RESTful', 'HTTP/2', 'WebSockets', 'GraphQL', 'Microservices', 'JSON Web Tokens', 'Authentication']
   },
   {
     name: 'Databases',
-    skills: ['PostgreSQL', 'Redis', 'MongoDB', 'Weaviate']
+    skills: ['PostgreSQL', 'Redis', 'MongoDB', 'Weaviate', 'SQLite', 'Elasticsearch', 'Couchbase']
   },
   {
     name: 'Cloud & DevOps',
-    skills: ['Docker', 'Kubernetes', 'AWS', 'IAM/Auth', 'AWS S3', 'DynamoDB', 'ELB']
+    skills: ['Docker', 'Kubernetes', 'Networking', 'AWS', 'Google Cloud', 'Azure', 'IAM/Auth', 'Terraform', 'Ansible']
   },
   {
     name: 'AI/ML',
-    skills: ['OpenAI', 'Langchain', 'RAG', 'Vector Databases', 'Embedding Models', 'Inferencing', 'Data Labeling']
+    skills: ['Genkit SDK', 'HuggingFace', 'PyTorch', 'TensorFlow', 'Langchain', 'RAG', 'Vector Databases', 'Embedding Models', 'Inferencing', 'Data Labeling']
   }
 ]
 
