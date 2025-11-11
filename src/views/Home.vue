@@ -47,7 +47,8 @@
         <div 
           v-for="post in posts" 
           :key="post.id" 
-          class="post-card"
+          class="post-card cursor-pointer"
+          @click="$router.push(`/blog/${post.slug}`)"
         >
           <div class="flex flex-col md:flex-row gap-6">
             <img 
@@ -68,13 +69,10 @@
                   {{ tag }}
                 </span>
               </div>
-              <router-link 
-                to="/blog" 
-                class="inline-flex items-center text-purple-400 hover:text-purple-300 text-sm font-medium"
-              >
+              <div class="inline-flex items-center text-purple-400 hover:text-purple-300 text-sm font-medium">
                 Read more
                 <ArrowRightIcon class="w-4 h-4 ml-1" />
-              </router-link>
+              </div>
             </div>
           </div>
         </div>
@@ -85,28 +83,39 @@
 
 <script setup>
 import { ArrowRightIcon } from '@heroicons/vue/24/outline'
+import allPostsData from '../../allposts.json'
 
 const skills = [
   'Go', 'Rust', 'Python', 'System Design', 'Cloud Native', 'RAG Agents',
   'DevOps', 'Database Architecture', 'Security', 'API Design'
 ]
 
-const posts = [
-  {
-    id: 1,
-    date: 'June 22, 2025',
-    title: 'Building RAG Agents with Golang and OpenAI',
-    description: 'An engineering guide to developing retrieval augmented generation systems using Langchaingo, Weaviate, and Docker.',
-    tags: ['RAG', 'Golang', 'Langchaingo', 'OpenAI'],
-    image: 'https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg?auto=compress&cs=tinysrgb&w=280&h=180&dpr=1'
-  },
-  {
-    id: 2,
-    date: 'May 14, 2025',
-    title: 'Rust-Powered APIs with Rocket & PostgreSQL',
-    description: 'A breakdown of how to architect secure and performant web APIs using Rust and PostgreSQL.',
-    tags: ['Rust', 'PostgreSQL', 'WebAPI'],
-    image: 'https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=280&h=180&dpr=1'
-  }
+// Colorful images from Unsplash
+const colorfulImages = [
+  'https://images.unsplash.com/photo-1557672172-298e090bd0f1?w=400&h=300&fit=crop', // Abstract colorful
+  'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop', // Colorful gradient
+  'https://images.unsplash.com/photo-1567095761054-7a02e69e5c43?w=400&h=300&fit=crop', // Tech abstract
+  'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400&h=300&fit=crop', // Colorful tech
+  'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=300&fit=crop', // Earth tech
+  'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=400&h=300&fit=crop', // Neon
 ]
+
+// Process posts from JSON - show latest 3 posts
+const posts = allPostsData
+  .filter(post => post.published === "1")
+  .sort((a, b) => new Date(b.created_on) - new Date(a.created_on))
+  .slice(0, 3)
+  .map((post, index) => ({
+    id: post.id,
+    date: new Date(post.created_on).toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    }),
+    title: post.title,
+    description: post.summary || post.subtitle,
+    tags: post.tags.split(',').map(tag => tag.trim()).slice(0, 4),
+    image: colorfulImages[index % colorfulImages.length],
+    slug: post.slug
+  }))
 </script>

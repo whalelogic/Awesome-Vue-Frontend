@@ -8,7 +8,19 @@
       </p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Loading State -->
+    <div v-if="loading" class="text-center py-12">
+      <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
+      <p class="text-gray-400 mt-4">Loading projects from GitHub...</p>
+    </div>
+
+    <!-- Error State -->
+    <div v-else-if="error" class="text-center py-12">
+      <p class="text-red-400">{{ error }}</p>
+    </div>
+
+    <!-- Projects Grid -->
+    <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div 
         v-for="project in projects" 
         :key="project.id"
@@ -16,43 +28,58 @@
       >
         <div class="flex items-start justify-between mb-4">
           <div class="flex items-center space-x-3">
-            <component :is="project.icon" class="w-8 h-8 text-purple-400" />
-            <h3 class="text-xl font-semibold text-white">{{ project.title }}</h3>
+            <component :is="getIcon(project.language)" class="w-8 h-8 text-purple-400" />
+            <h3 class="text-xl font-semibold text-white">{{ project.name }}</h3>
           </div>
           <div class="flex space-x-2">
             <a 
-              v-if="project.github"
-              :href="project.github" 
+              :href="project.html_url" 
               target="_blank"
               class="text-gray-400 hover:text-white transition-colors"
+              title="View on GitHub"
             >
               <CodeBracketIcon class="w-5 h-5" />
             </a>
             <a 
-              v-if="project.demo"
-              :href="project.demo" 
+              v-if="project.homepage"
+              :href="project.homepage" 
               target="_blank"
               class="text-gray-400 hover:text-white transition-colors"
+              title="View Demo"
             >
               <ArrowTopRightOnSquareIcon class="w-5 h-5" />
             </a>
           </div>
         </div>
         
-        <p class="text-gray-400 mb-4">{{ project.description }}</p>
+        <p class="text-gray-400 mb-4">{{ project.description || 'No description available' }}</p>
         
         <div class="flex flex-wrap gap-2 mb-4">
           <span 
-            v-for="tech in project.technologies" 
-            :key="tech"
+            v-if="project.language"
+            class="text-xs bg-blue-700/20 text-blue-300 px-2 py-1 rounded-full"
+          >
+            {{ project.language }}
+          </span>
+          <span 
+            v-for="topic in project.topics.slice(0, 4)" 
+            :key="topic"
             class="text-xs bg-gray-700 text-gray-300 px-2 py-1 rounded-full"
           >
-            {{ tech }}
+            {{ topic }}
           </span>
         </div>
         
-        <div class="text-sm text-gray-500">
-          {{ project.status }}
+        <div class="flex items-center justify-between text-sm text-gray-500">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center">
+              ⭐ {{ project.stargazers_count }}
+            </span>
+            <span class="flex items-center">
+              🔀 {{ project.forks_count }}
+            </span>
+          </div>
+          <span>Updated {{ formatDate(project.updated_at) }}</span>
         </div>
       </div>
     </div>
@@ -60,6 +87,7 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue'
 import { 
   CodeBracketIcon, 
   ArrowTopRightOnSquareIcon,
@@ -68,66 +96,60 @@ import {
   ShieldCheckIcon,
   ChartBarIcon,
   CubeIcon,
-  ServerIcon
+  ServerIcon,
+  CommandLineIcon
 } from '@heroicons/vue/24/outline'
 
-const projects = [
-  {
-    id: 1,
-    title: 'RAG Agent Platform',
-    description: 'A comprehensive platform for building and deploying retrieval-augmented generation agents with vector databases and LLM integration.',
-    technologies: ['Go', 'Langchaingo', 'Weaviate', 'OpenAI', 'Docker'],
-    status: 'Production Ready',
-    github: 'https://github.com',
-    demo: 'https://demo.com',
-    icon: CpuChipIcon
-  },
-  {
-    id: 2,
-    title: 'Cloud Native Microservices',
-    description: 'Scalable microservices architecture built with Go and deployed on Kubernetes with advanced monitoring and observability.',
-    technologies: ['Go', 'Kubernetes', 'gRPC', 'Prometheus', 'Grafana'],
-    status: 'Active Development',
-    github: 'https://github.com',
-    icon: CloudIcon
-  },
-  {
-    id: 3,
-    title: 'Secure API Gateway',
-    description: 'High-performance API gateway with authentication, rate limiting, and request/response transformation capabilities.',
-    technologies: ['Rust', 'Actix-web', 'Redis', 'JWT', 'PostgreSQL'],
-    status: 'Production Ready',
-    github: 'https://github.com',
-    demo: 'https://demo.com',
-    icon: ShieldCheckIcon
-  },
-  {
-    id: 4,
-    title: 'Real-time Analytics Dashboard',
-    description: 'Interactive dashboard for real-time data visualization with WebSocket connections and streaming data processing.',
-    technologies: ['Python', 'FastAPI', 'WebSockets', 'React', 'D3.js'],
-    status: 'Completed',
-    github: 'https://github.com',
-    demo: 'https://demo.com',
-    icon: ChartBarIcon
-  },
-  {
-    id: 5,
-    title: 'Blockchain Data Indexer',
-    description: 'High-throughput blockchain data indexer and API for querying transaction history and smart contract events.',
-    technologies: ['Go', 'PostgreSQL', 'GraphQL', 'Docker', 'Redis'],
-    status: 'Active Development',
-    github: 'https://github.com',
-    icon: CubeIcon
-  },
-  {
-    id: 6,
-    title: 'Distributed Cache System',
-    description: 'Custom distributed caching solution with consistent hashing, replication, and automatic failover mechanisms.',
-    technologies: ['Rust', 'gRPC', 'Raft Consensus', 'Docker', 'Kubernetes'],
-    status: 'Research Phase',
-    github: 'https://github.com',
-    icon: ServerIcon
+const projects = ref([])
+const loading = ref(true)
+const error = ref(null)
+
+const getIcon = (language) => {
+  const iconMap = {
+    'JavaScript': CpuChipIcon,
+    'TypeScript': CpuChipIcon,
+    'Python': CommandLineIcon,
+    'Go': CloudIcon,
+    'Rust': ShieldCheckIcon,
+    'Java': ServerIcon,
+    'C++': CubeIcon,
+    'C#': ServerIcon,
   }
-]
+  return iconMap[language] || CodeBracketIcon
+}
+
+const formatDate = (dateString) => {
+  const date = new Date(dateString)
+  const now = new Date()
+  const diffTime = Math.abs(now - date)
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+  
+  if (diffDays < 7) return `${diffDays} days ago`
+  if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`
+  if (diffDays < 365) return `${Math.floor(diffDays / 30)} months ago`
+  return `${Math.floor(diffDays / 365)} years ago`
+}
+
+onMounted(async () => {
+  try {
+    const response = await fetch('https://api.github.com/users/whalelogic/repos?sort=updated&per_page=12')
+    
+    if (!response.ok) {
+      throw new Error(`GitHub API error: ${response.status}`)
+    }
+    
+    const data = await response.json()
+    
+    // Filter out forks and sort by stars/recent activity
+    projects.value = data
+      .filter(repo => !repo.fork)
+      .sort((a, b) => b.stargazers_count - a.stargazers_count)
+    
+    loading.value = false
+  } catch (err) {
+    error.value = `Failed to load projects: ${err.message}`
+    loading.value = false
+    console.error('Error fetching GitHub repos:', err)
+  }
+})
 </script>

@@ -9,7 +9,10 @@
     </div>
 
     <!-- Featured Post -->
-    <div class="bg-gradient-to-r from-purple-900/50 to-pink-900/50 rounded-lg p-8 mb-12">
+    <div 
+      class="bg-gradient-to-r from-purple-900/50 to-pink-900/50 rounded-lg p-8 mb-12 cursor-pointer hover:from-purple-900/60 hover:to-pink-900/60 transition-all duration-200"
+      @click="$router.push(`/blog/${featuredPost.slug}`)"
+    >
       <div class="flex items-center space-x-2 mb-3">
         <StarIcon class="w-5 h-5 text-yellow-400" />
         <span class="text-yellow-400 text-sm font-medium">Featured Post</span>
@@ -59,11 +62,12 @@
       <article 
         v-for="post in filteredPosts" 
         :key="post.id"
-        class="bg-gray-800 rounded-lg p-6 hover:bg-gray-750 transition-colors duration-200"
+        class="bg-gray-800 rounded-lg p-6 hover:bg-gray-750 transition-colors duration-200 cursor-pointer"
+        @click="$router.push(`/blog/${post.slug}`)"
       >
         <div class="flex items-start justify-between mb-4">
           <div class="flex-1">
-            <h2 class="text-xl font-semibold text-white mb-2 hover:text-purple-400 cursor-pointer">
+            <h2 class="text-xl font-semibold text-white mb-2 hover:text-purple-400">
               {{ post.title }}
             </h2>
             <p class="text-gray-400 mb-3">{{ post.excerpt }}</p>
@@ -121,71 +125,78 @@ import {
   ClockIcon, 
   ArrowRightIcon 
 } from '@heroicons/vue/24/outline'
+import allPostsData from '../../allposts.json'
 
 const searchQuery = ref('')
 const selectedCategory = ref('')
 
-const featuredPost = {
-  title: 'Building Production-Ready RAG Systems: A Complete Guide',
-  description: 'Learn how to build, deploy, and scale retrieval-augmented generation systems in production environments with real-world examples and best practices.',
-  tags: ['RAG', 'Production', 'AI', 'System Design'],
-  date: 'July 15, 2025'
-}
-
-const categories = ['System Design', 'Go', 'Rust', 'Python', 'AI/ML', 'DevOps', 'Database']
-
-const blogPosts = [
-  {
-    id: 1,
-    title: 'Building RAG Agents with Golang and OpenAI',
-    excerpt: 'An engineering guide to developing retrieval augmented generation systems using Langchaingo, Weaviate, and Docker.',
-    date: 'June 22, 2025',
-    readTime: 12,
-    tags: ['RAG', 'Golang', 'Langchaingo', 'OpenAI'],
-    category: 'AI/ML',
-    image: 'https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&dpr=1'
-  },
-  {
-    id: 2,
-    title: 'Rust-Powered APIs with Rocket & PostgreSQL',
-    excerpt: 'A breakdown of how to architect secure and performant web APIs using Rust and PostgreSQL.',
-    date: 'May 14, 2025',
-    readTime: 8,
-    tags: ['Rust', 'PostgreSQL', 'WebAPI'],
-    category: 'Rust',
-    image: 'https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&dpr=1'
-  },
-  {
-    id: 3,
-    title: 'Microservices Communication Patterns in Go',
-    excerpt: 'Exploring different communication patterns for microservices including gRPC, message queues, and event-driven architectures.',
-    date: 'April 28, 2025',
-    readTime: 15,
-    tags: ['Go', 'Microservices', 'gRPC', 'Architecture'],
-    category: 'System Design',
-    image: 'https://images.pexels.com/photos/1181677/pexels-photo-1181677.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&dpr=1'
-  },
-  {
-    id: 4,
-    title: 'Optimizing Database Performance for High-Traffic Applications',
-    excerpt: 'Practical strategies for database optimization, indexing, and query performance in production environments.',
-    date: 'April 10, 2025',
-    readTime: 10,
-    tags: ['Database', 'Performance', 'PostgreSQL', 'Optimization'],
-    category: 'Database',
-    image: 'https://images.pexels.com/photos/1181298/pexels-photo-1181298.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&dpr=1'
-  },
-  {
-    id: 5,
-    title: 'Container Orchestration with Kubernetes: Best Practices',
-    excerpt: 'A comprehensive guide to deploying and managing containerized applications with Kubernetes in production.',
-    date: 'March 22, 2025',
-    readTime: 18,
-    tags: ['Kubernetes', 'Docker', 'DevOps', 'Container'],
-    category: 'DevOps',
-    image: 'https://images.pexels.com/photos/1181271/pexels-photo-1181271.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&dpr=1'
-  }
+// Colorful images from Unsplash
+const colorfulImages = [
+  'https://images.unsplash.com/photo-1557672172-298e090bd0f1?w=400&h=300&fit=crop', // Abstract colorful
+  'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop', // Colorful gradient
+  'https://images.unsplash.com/photo-1567095761054-7a02e69e5c43?w=400&h=300&fit=crop', // Tech abstract
+  'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400&h=300&fit=crop', // Colorful tech
+  'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=300&fit=crop', // Earth tech
+  'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=400&h=300&fit=crop', // Neon
+  'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=400&h=300&fit=crop', // Purple abstract
+  'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400&h=300&fit=crop', // Abstract art
 ]
+
+// Process posts from JSON
+const blogPosts = allPostsData
+  .filter(post => post.published === "1")
+  .map((post, index) => ({
+    id: post.id,
+    title: post.title,
+    excerpt: post.summary || post.subtitle,
+    date: new Date(post.created_on).toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    }),
+    readTime: parseInt(post.read_time) || 5,
+    tags: post.tags.split(',').map(tag => tag.trim()).slice(0, 4),
+    category: post.category,
+    image: colorfulImages[index % colorfulImages.length],
+    slug: post.slug,
+    content: post.content
+  }))
+
+// Get featured post
+const featuredPost = computed(() => {
+  const featured = allPostsData.find(post => post.featured === "1" && post.published === "1")
+  if (featured) {
+    return {
+      title: featured.title,
+      description: featured.summary || featured.subtitle,
+      tags: featured.tags.split(',').map(tag => tag.trim()).slice(0, 4),
+      date: new Date(featured.created_on).toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      }),
+      slug: featured.slug
+    }
+  }
+  return {
+    title: blogPosts[0]?.title || 'No posts available',
+    description: blogPosts[0]?.excerpt || '',
+    tags: blogPosts[0]?.tags || [],
+    date: blogPosts[0]?.date || '',
+    slug: blogPosts[0]?.slug || ''
+  }
+})
+
+// Extract unique categories
+const categories = computed(() => {
+  const cats = new Set()
+  allPostsData.forEach(post => {
+    if (post.published === "1" && post.category) {
+      post.category.split(',').forEach(cat => cats.add(cat.trim()))
+    }
+  })
+  return Array.from(cats).sort()
+})
 
 const filteredPosts = computed(() => {
   let filtered = blogPosts
@@ -200,7 +211,9 @@ const filteredPosts = computed(() => {
   }
 
   if (selectedCategory.value) {
-    filtered = filtered.filter(post => post.category === selectedCategory.value)
+    filtered = filtered.filter(post => 
+      post.category.toLowerCase().includes(selectedCategory.value.toLowerCase())
+    )
   }
 
   return filtered
