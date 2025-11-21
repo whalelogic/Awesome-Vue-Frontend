@@ -1,88 +1,107 @@
 <template>
-  <div class="max-w-4xl mx-auto px-4 py-10">
-    <div class="text-center mb-10">
-      <h1 class="text-3xl font-bold text-white mb-4">About Me</h1>
-      <p class="text-gray-400 text-lg">
-        Full Stack Developer & System Architect
-      </p>
-    </div>
+  <div class="bg-gray-900 text-white min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      
+      <!-- Header -->
+      <header class="text-center mb-16">
+        <h1 class="text-5xl font-extrabold tracking-tight mb-3">Keith Thomson</h1>
+        <p class="text-2xl text-purple-400 font-light">Programmer - Cloud-Native Development</p>
+      </header>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
-      <div class="lg:col-span-2 space-y-6">
-        <div class="bg-gray-800 rounded-lg p-6">
-          <h2 class="text-xl font-semibold text-white mb-4 flex items-center">
-            <UserIcon class="w-6 h-6 mr-2 text-purple-400" />
-            Background
-          </h2>
-            <p class="text-gray-400 leading-relaxed mb-4">
-            I'm Keith Thomson—a full-stack engineer and cloud architect with a passion for building scalable, high-performance systems. After serving as a Squad Leader I continued working as a federal contractor supporting U.S. Navy logistics and data systems through it's PSD - Personnel Support Detachment.
-            </p>
-            <p class="text-gray-400 leading-relaxed mb-4">
-            I leveraged my G.I. Bill to earn degrees in Computer Science Information Systems and Cloud Computing, specializing in Backend Development, Cloud Infrastructure Automation and Systems Design.
-            </p>
-            <p class="text-gray-400 leading-relaxed mb-4">
-            I use Go, Python, Bash and more for designing and administering microservices, gRPC, RESTful APIs, Web Applications, Data Pipelines and other cloud-native solutions.
-            </p>
-            <p class="text-gray-400 leading-relaxed">
-            Whether Architecting Distributed Systems, designing Data Pipelines, or optimizing your Cloud Infrastructure, I focus on delivering secure, maintainable solutions that solve real business problems.
-            </p>
-
-        </div>
-
-        <div class="bg-gray-800 rounded-lg p-6">
-          <h2 class="text-xl font-semibold text-white mb-4 flex items-center">
-            <BriefcaseIcon class="w-6 h-6 mr-2 text-purple-400" />
-            Experience
-          </h2>
-          <div class="space-y-4">
-            <div v-for="job in experience" :key="job.id" class="border-l-2 border-purple-600 pl-4">
-              <h3 class="text-white font-semibold">{{ job.title }}</h3>
-              <p class="text-purple-400 text-sm">{{ job.company }} • {{ job.period }}</p>
-              <p class="text-gray-400 text-sm mt-2">{{ job.description }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="space-y-6">
-        <div class="bg-gray-800 rounded-lg p-6">
-          <h2 class="text-xl font-semibold text-white mb-4 flex items-center">
-            <WrenchScrewdriverIcon class="w-6 h-6 mr-2 text-purple-400" />
-            Skills
-          </h2>
-          <div class="space-y-4">
-            <div v-for="category in skillCategories" :key="category.name">
-              <h3 class="text-white font-medium mb-2">{{ category.name }}</h3>
-              <div class="flex flex-wrap gap-2">
-                <span 
-                  v-for="skill in category.skills" 
-                  :key="skill"
-                  class="text-xs bg-purple-700/20 text-purple-300 px-2 py-1 rounded-full"
-                >
-                  {{ skill }}
-                </span>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-x-12 gap-y-10">
+        
+        <!-- Main Content -->
+        <main class="lg:col-span-2">
+          
+          <!-- Background Section -->
+          <section id="background" class="mb-12">
+            <div class="bg-gray-800 rounded-2xl shadow-lg p-8 flex flex-col md:flex-row items-center gap-8">
+              <img src="https://www.gravatar.com/avatar/986b3f67e5f2c3d2478a02a860d942f5?s=200&d=mp" alt="Keith Thomson" class="w-40 h-40 rounded-full object-cover border-4 border-purple-500 shadow-md">
+              <div>
+                <h2 class="text-3xl font-bold mb-4 flex items-center">
+                  <UserIcon class="w-8 h-8 mr-3 text-purple-400" />
+                  Background
+                </h2>
+                <div class="text-gray-300 space-y-4 leading-relaxed">
+                  <p>
+                    From leading infantry squads in the U.S. Army to architecting scalable cloud solutions, my journey has been one of continuous growth and adaptation. My military service instilled in me a deep sense of discipline and a mission-first mindset, which I now apply to solving complex engineering challenges.
+                  </p>
+                  <p>
+                    After my service, I pursued higher education with the help of the G.I. Bill, earning degrees in Computer Science and Cloud Computing. This academic foundation, combined with hands-on experience, has equipped me with a robust skill set in backend development, cloud infrastructure, and system design. I thrive on building secure, high-performance systems that drive business value.
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+          </section>
 
-        <div class="bg-gray-800 rounded-lg p-6">
-          <h2 class="text-xl font-semibold text-white mb-4 flex items-center">
-            <EnvelopeIcon class="w-6 h-6 mr-2 text-purple-400" />
-            Contact
-          </h2>
-          <div class="space-y-3">
-            <a 
-              v-for="contact in contacts" 
-              :key="contact.label"
-              :href="contact.href" 
-              class="flex items-center text-gray-400 hover:text-white transition-colors"
-            >
-              <component :is="contact.icon" class="w-5 h-5 mr-3" />
-              {{ contact.label }}
-            </a>
-          </div>
-        </div>
+          <!-- Experience Section -->
+          <section id="experience">
+            <h2 class="text-3xl font-bold mb-6 flex items-center">
+              <BriefcaseIcon class="w-8 h-8 mr-3 text-purple-400" />
+              Professional Experience
+            </h2>
+            <div class="space-y-8 relative border-l-2 border-gray-700 ml-4">
+              <div v-for="(job, index) in experience" :key="job.id" class="pl-8">
+                <div class="absolute -left-[11px] top-1 w-5 h-5 bg-purple-500 rounded-full border-4 border-gray-800"></div>
+                <p class="text-sm text-purple-400 font-medium">{{ job.period }}</p>
+                <h3 class="text-xl font-semibold text-white mt-1">{{ job.title }}</h3>
+                <p class="text-md text-gray-400 mb-2">{{ job.company }}</p>
+                <p class="text-gray-300 leading-relaxed">
+                  {{ job.description }}
+                </p>
+              </div>
+            </div>
+          </section>
+
+        </main>
+
+        <!-- Sidebar -->
+        <aside class="space-y-10">
+          
+          <!-- Skills Section -->
+          <section id="skills" class="bg-gray-800 rounded-2xl shadow-lg p-8">
+            <h2 class="text-2xl font-bold mb-6 flex items-center">
+              <WrenchScrewdriverIcon class="w-7 h-7 mr-3 text-purple-400" />
+              Core Competencies
+            </h2>
+            <div class="space-y-6">
+              <div v-for="category in skillCategories" :key="category.name">
+                <h3 class="text-lg font-semibold text-white mb-3">{{ category.name }}</h3>
+                <div class="flex flex-wrap gap-2">
+                  <span 
+                    v-for="skill in category.skills" 
+                    :key="skill"
+                    class="bg-purple-600/30 text-purple-200 text-sm font-medium px-3 py-1 rounded-full hover:bg-purple-500/50 transition-colors cursor-default"
+                  >
+                    {{ skill }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Contact Section -->
+          <section id="contact" class="bg-gray-800 rounded-2xl shadow-lg p-8">
+            <h2 class="text-2xl font-bold mb-6 flex items-center">
+              <EnvelopeIcon class="w-7 h-7 mr-3 text-purple-400" />
+              Get in Touch
+            </h2>
+            <div class="space-y-4">
+              <a 
+                v-for="contact in contacts" 
+                :key="contact.label"
+                :href="contact.href" 
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex items-center p-3 bg-gray-700/50 rounded-lg hover:bg-gray-700 transition-all group"
+              >
+                <component :is="contact.icon" class="w-6 h-6 mr-4 text-purple-400 group-hover:scale-110 transition-transform" />
+                <span class="text-gray-300 group-hover:text-white">{{ contact.label }}</span>
+              </a>
+            </div>
+          </section>
+
+        </aside>
       </div>
     </div>
   </div>
@@ -96,51 +115,58 @@ import {
   EnvelopeIcon,
   AtSymbolIcon,
   DevicePhoneMobileIcon
-} from '@heroicons/vue/24/outline'
+} from '@heroicons/vue/24/solid'
 
 const experience = [
   {
     id: 1,
-    title: 'Programmer Analyst',
-    company: 'Southern Connecticut State University – New Haven, CT',
-    period: '2023 – Present',
-    description: 'Develop and maintain internal web applications and data systems to support university operations. Collaborate with cross-functional teams to design solutions that enhance administrative efficiency and student services.'
+    title: 'Cloud Developer/Practitioner',
+    company: 'WhaleLogic - Cloud Development and Administration Start-up (Gales Ferry, CT)',
+    period: '2025 – Present',
+    description: 'A self-started initiative to develop and maintain internal web applications and data systems that support small business operations. Examples include a Conent Management System (CMS) system, websocket-based secure communcation solutions, and automation-based tools hosted on cloud infrastructure.'
   },
   {
     id: 2,
-    title: 'Product QA & Web Content Manager',
-    company: 'PennyBorne Development (Remote – Detroit, MI)',
+    title: 'Product QA & Web Master',
+    company: 'PennyBorne Development (PT Remote – Detroit, MI)',
     period: '2023 – Present',
-    description: 'Oversee QA processes, manage and curate website content, source and structure business data, administer internal databases, and coordinate directly with clients to align digital strategy with operational goals.'
+    description: 'Oversee QA processes, manage and curate website content, source and structure business data, administer internal databases, and coordinate directly with clients and executives to align digital strategy with operational goals.'
   },
   {
     id: 3,
+    title: 'Professional Break (Full-Time Student)',
+    company: 'CT State College and Southern CT State University',
+    period: '2021 – Present',
+    description: 'Pursuing dual degrees in Computer Science (B.S.) and Cloud Computing (A.S.) while actively engaging in personal development projects related to software engineering, cloud architecture, and AI/ML technologies.'
+  },
+  {
+    id: 4,
     title: 'Assistant Manager',
     company: 'The Spice & Tea Exchange – Mystic, CT',
     period: '2017 – 2021',
     description: 'Managed daily retail operations, optimized inventory control, and led a sales team to increase store revenue by over 25%. Developed customer loyalty initiatives and trained staff in product knowledge and service excellence.'
   },
   {
-    id: 4,
+    id: 5,
     title: 'Financial Accounting Clerk',
     company: 'The Magetti Group / Various Federal Contracts',
     period: '2012 – 2016',
     description: 'Provided data analytics and financial systems support for U.S. Navy contracts. Delivered operational insights and managed backend data systems for logistics and accounting functions.'
   },
   {
-    id: 5,
+    id: 6,
     title: 'Infantry Squad Leader (NCO)',
     company: 'U.S. Army – Active Duty',
     period: '2007 – 2011',
     description: 'Led combat infantry operations, coordinated mission-critical logistics, and managed team training and field execution under high-stakes conditions.'
   }
-]
+].sort((a, b) => b.id - a.id);
 
 
 const skillCategories = [
   {
     name: 'Languages',
-    skills: ['Go', 'Bash', 'SQL', 'Python', 'C++', 'JavaScript', 'C#' ]
+    skills: ['Go', 'Bash', 'Python', 'Rust', 'JS/TS', 'C++', 'SQL' ]
   },
   {
     name: 'Backend',
@@ -178,3 +204,15 @@ const contacts = [
   }
 ]
 </script>
+
+<style scoped>
+/* Scoped styles for custom timeline effect */
+.relative.border-l-2::before {
+  content: '';
+  position: absolute;
+  left: -2px;
+  top: 0;
+  height: 100%;
+  width: 2px;
+}
+</style>

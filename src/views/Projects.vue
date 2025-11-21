@@ -21,10 +21,12 @@
 
     <!-- Projects Grid -->
     <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div 
+      <a 
         v-for="project in projects" 
         :key="project.id"
-        class="project-card"
+        :href="project.html_url"
+        target="_blank"
+        class="project-card block hover:bg-gray-800/50 p-6 rounded-lg transition-colors"
       >
         <div class="flex items-start justify-between mb-4">
           <div class="flex items-center space-x-3">
@@ -37,6 +39,7 @@
               target="_blank"
               class="text-gray-400 hover:text-white transition-colors"
               title="View on GitHub"
+              @click.stop
             >
               <CodeBracketIcon class="w-5 h-5" />
             </a>
@@ -46,6 +49,7 @@
               target="_blank"
               class="text-gray-400 hover:text-white transition-colors"
               title="View Demo"
+              @click.stop
             >
               <ArrowTopRightOnSquareIcon class="w-5 h-5" />
             </a>
@@ -81,7 +85,7 @@
           </div>
           <span>Updated {{ formatDate(project.updated_at) }}</span>
         </div>
-      </div>
+      </a>
     </div>
   </div>
 </template>
